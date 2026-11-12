@@ -1,7 +1,8 @@
-#include <stdio.h>
+#include "snek/terminal.h"
 
 
 int main() {
-    printf("Hello, World!\n");
+    clearScreen();
+    printAt(5, 0, "@\n", DEFAULT);
     return 0;
 }
