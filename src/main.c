@@ -1,18 +1,31 @@
+#include <stdio.h>
 #include "snek/terminal.h"
+#include "snek/core.h"
+
+
+void debug(struct Snake* snake) {
+    if (snake == NULL)
+        return;
+    printf("Snake[length=%zu;capacity=%zu]\n", snake->length, snake->m_capacity);
+    for (size_t i = 0; i < snake->length; ++i) {
+        printf("(%d;%d) ", snake->cells[i].x, snake->cells[i].y);
+    }
+    printf("\n");
+}
 
 
 int main() {
-    clearScreen();
-    // Returns 0 at failure
-    if (!initializeTerminalSuccess()) {
-        return 1;
-    }
-    // Print a number from 0 to 4 at position (1;1) three times
-    for (int i = 0; i < 3; ++i) {
-        char c = '0' + getMovementKeyPressed();
-        printAt(1, 1, &c, DEFAULT);
-    }
+    struct Snake snake;
+    createSnake(&snake, 3, 1, 1);
+    
+    growTail(&snake, 1, 0);
+    growTail(&snake, 1, 0);
+    growTail(&snake, 1, 0);
+    growTail(&snake, 1, 0);
+    growTail(&snake, 1, 0);
+    growTail(&snake, 1, 0);
+    debug(&snake);
 
-    resetTerminal();
+    deleteSnake(&snake);
     return 0;
 }
