@@ -1,7 +1,7 @@
 # Run from the root directory
 
 CC=gcc
-CFLAGS=-c -Wall -Wextra
+CFLAGS=-c -Wall -Wextra -Werror
 
 APPNAME=Snek
 
