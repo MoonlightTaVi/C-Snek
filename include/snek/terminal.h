@@ -6,6 +6,14 @@ enum Color {
     DEFAULT, RED, GREEN
 };
 
+/** 
+ * Represents an arrow 'key pressed' event for basic movement input,
+ * as well as 'no key/some other key pressed' default fallback.
+ */
+enum ArrowKey {
+    KEY_NONE, KEY_UP, KEY_DOWN, KEY_RIGHT, KEY_LEFT 
+};
+
 
 /** Clears the entire screen and resets the cursor position. */
 void clearScreen();
@@ -17,3 +25,19 @@ void clearScreen();
  * The origin of the screen is at (1;1).
  */
 void printAt(int x, int y, const char* c, enum Color color);
+
+/** 
+ * Initializes the terminal application 
+ * by enabling raw mode and disabling input echo.
+ * Returns 1 if the initialization was successful, 0 otherwise.
+ * 
+ * The terminal must be manually reset to its default state when
+ * application quits.
+*/
+int initializeTerminalSuccess(); 
+
+/** Resets the terminal to its default state. */
+void resetTerminal(); 
+
+/** Returns whether (and which) arrow key was recently pressed by the user. */
+enum ArrowKey getMovementKeyPressed();
