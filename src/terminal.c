@@ -1,7 +1,7 @@
+#include "snek/terminal.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <termios.h>
-#include "snek/terminal.h"
 
 
 /** Erases the screen and resets cursor position. */
