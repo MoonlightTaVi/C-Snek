@@ -30,7 +30,7 @@ void debug(struct Snake* snake) {
  * Initializes the snake. 
  * Does not initialize the terminal, because it may be insuccessful.
  */
-void begin(struct Snake* snake) {
+void initialize(struct Snake* snake) {
     const int initial_capacity = 8;
     const int initial_length = 4;
     createSnake(
@@ -40,12 +40,6 @@ void begin(struct Snake* snake) {
     );
     for (int i = 0; i < initial_length; ++i)
         growTail(snake, -1, 0);
-}
-
-/** Deletes the snake and clears the screen. */
-void end(struct Snake* snake) {
-    deleteSnake(snake);
-    clearScreen();
 }
 
 /** 
@@ -67,7 +61,7 @@ void play(struct Snake* snake) {
         const struct Cell *head = getHead(snake);
         const struct Cell *tail = getTail(snake);
         // Erase tail and reset head's symbol to body symbol
-        printAt(tail->x, tail->y, ".", C_DEFAULT);
+        printAt(tail->x, tail->y, " ", C_DEFAULT);
         printAt(head->x, head->y, "o", C_GREEN);
         // Change head position
         move(snake, dx, dy);
@@ -76,6 +70,11 @@ void play(struct Snake* snake) {
             break;
         if (eatsItself(snake))
             break;
+        // Eat apple
+        if (head->x == apple.x && head->y == apple.y) {
+            growTail(snake, 0, 0);
+            randomizeCoordinates(&apple);
+        }
         // Redraw head
         printAt(head->x, head->y, "O", C_GREEN);
         // Print apple, blinking
@@ -83,15 +82,27 @@ void play(struct Snake* snake) {
     }
 }
 
+
 int main() {
+    printf("WELCOME TO THE SNEK GAME!\n");
+    printf("(play as snek and eat a snack)\n\n");
+    printf("Press Ctrl+C to QUIT NOW.\n");
+    printf("Eat yourself or go outside the screen to QUIT LATER.\n");
+    printf("\n\nPress Enter to continue...\n\n");
+    getchar();
+
     if (!initializeTerminalSuccess())
         return 1;
 
     struct Snake snake;
-    begin(&snake);
+    initialize(&snake);
     play(&snake);
-    end(&snake);
 
+    clearScreen();
     resetTerminal();
+    
+    printf("Your final length was %zu snaki-meters. Bye-bye.\n", snake.length);
+    deleteSnake(&snake);
+
     return 0;
 }
