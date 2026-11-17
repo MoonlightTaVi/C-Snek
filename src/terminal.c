@@ -65,6 +65,7 @@ int initializeTerminalSuccess() {
 
     g_tty_current.c_lflag &= ~ICANON;
     g_tty_current.c_lflag &= ~ECHO;
+    g_tty_current.c_lflag &= ~ISIG;
     g_tty_current.c_cc[VTIME] = 1;
     g_tty_current.c_cc[VMIN] = 0;
 
