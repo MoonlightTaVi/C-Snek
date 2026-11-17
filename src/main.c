@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "snek/terminal.h"
 #include "snek/core.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
 /** Returns a random number in range [from;to). */
@@ -11,8 +11,8 @@ int randomRange(int from, int to) {
 
 /** Places the given cell at a random position on screen. */
 void randomizeCoordinates(struct Cell* cell) {
-    cell->x = randomRange(1, getTerminalWidth());
-    cell->y = randomRange(1, getTerminalHeight());
+    cell->x = randomRange(1, getTerminalScreenWidth());
+    cell->y = randomRange(1, getTerminalScreenHeight());
 }
 
 /** Prints debugging information about snake properties. */
@@ -64,7 +64,7 @@ void play(struct Snake* snake) {
         printAt(tail->x, tail->y, " ", C_DEFAULT);
         printAt(head->x, head->y, "o", C_GREEN);
         // Change head position
-        move(snake, dx, dy);
+        moveSnake(snake, dx, dy);
         // Lose conditions = Quit
         if (!isPointInBoundaries(head->x, head->y))
             break;
@@ -78,7 +78,7 @@ void play(struct Snake* snake) {
         // Redraw head
         printAt(head->x, head->y, "O", C_GREEN);
         // Print apple, blinking
-        printAt(apple.x, apple.y, (turn % 2 == 0 ? "@" : " "), C_RED);
+        printAt(apple.x, apple.y, (turn % 3 != 0 ? "@" : " "), C_RED);
     }
 }
 
@@ -98,10 +98,10 @@ int main() {
     initialize(&snake);
     play(&snake);
 
-    clearScreen();
-    resetTerminal();
+    clearTerminalScreen();
+    resetTerminalToDefaults();
     
-    printf("Your final length was %zu snaki-meters. Bye-bye.\n", snake.length);
+    printf("Your final length was %zu sneki-meters. Bye-bye.\n", snake.length);
     deleteSnake(&snake);
 
     return 0;

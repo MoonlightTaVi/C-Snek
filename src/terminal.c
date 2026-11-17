@@ -1,8 +1,8 @@
 #include "snek/terminal.h"
 #include <sys/ioctl.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
 
 
 /** Erases the screen and resets cursor position. */
@@ -34,7 +34,7 @@ const char* getColor(enum Color c) {
 }
 
 
-void clearScreen() {
+void clearTerminalScreen() {
     printf(ANSI_CLEAR);
 }
 
@@ -76,7 +76,7 @@ int initializeTerminalSuccess() {
     return 1;
 }
 
-void resetTerminal() {
+void resetTerminalToDefaults() {
     tcsetattr(g_FD, TCSANOW, &g_tty_default);
 }
 
@@ -96,14 +96,14 @@ enum ArrowKey getMovementKeyPressed() {
     }
 }
 
-int getTerminalWidth() {
+int getTerminalScreenWidth() {
     return g_winsize.ws_col;
 }
 
-int getTerminalHeight() {
+int getTerminalScreenHeight() {
     return g_winsize.ws_row;
 }
 
 int isPointInBoundaries(int x, int y) {
-    return x > 0 && y > 0 && x < getTerminalWidth() && y && getTerminalHeight();
+    return x > 0 && y > 0 && x < getTerminalScreenWidth() && y && getTerminalScreenHeight();
 }

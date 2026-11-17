@@ -16,7 +16,7 @@ enum ArrowKey {
 
 
 /** Clears the entire screen and resets the cursor position. */
-void clearScreen();
+void clearTerminalScreen();
 
 /**
  * Prints a single character or a sequence of characters 
@@ -37,16 +37,16 @@ void printAt(int x, int y, const char* c, enum Color color);
 int initializeTerminalSuccess(); 
 
 /** Resets the terminal to its default state. */
-void resetTerminal(); 
+void resetTerminalToDefaults(); 
 
 /** Returns whether (and which) arrow key was recently pressed by the user. */
 enum ArrowKey getMovementKeyPressed();
 
 /** Returns the width of the terminal, in symbols. */
-int getTerminalWidth();
+int getTerminalScreenWidth();
 
 /** Returns the height of the terminal, in symbols. */
-int getTerminalHeight();
+int getTerminalScreenHeight();
 
 /** Returns 1 if the point is inside the terminal's screen boundaries; 0 if it is outside. */
 int isPointInBoundaries(int x, int y); 

@@ -45,8 +45,7 @@ void resize(struct Snake* snake, size_t newCapacity);
 
 /** 
  * Grows a new CELL at the tip of the snake's tail,
- * spreading the tail towards the given relative direction; 
- * the method is only useful right after the snake creation. 
+ * spreading the tail towards the given relative direction. 
  */
 void growTail(struct Snake* snake, int dx, int dy); 
 
@@ -56,7 +55,7 @@ void growTail(struct Snake* snake, int dx, int dy);
  * Does not move the snake if it is trying to move towards its tail
  * (backwards).
  */
-void move(struct Snake* snake, int dx, int dy); 
+void moveSnake(struct Snake* snake, int dx, int dy); 
 
 /** Checks if the snake's head is at one of its body cells positions. */
 int eatsItself(struct Snake* snake);

@@ -36,7 +36,7 @@ void growTail(struct Snake* snake, int dx, int dy) {
     snake->cells[snake->length++] = (struct Cell) { tail.x + dx, tail.y + dy };
 }
 
-void move(struct Snake* snake, int dx, int dy) {
+void moveSnake(struct Snake* snake, int dx, int dy) {
     // First drag the tail
     for (size_t i = 0; i < snake->length - 1; ++i) {
         size_t j = snake->length - i - 1;
