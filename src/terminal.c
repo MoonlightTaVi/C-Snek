@@ -1,4 +1,5 @@
 #include "snek/terminal.h"
+#include <sys/ioctl.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <termios.h>
@@ -19,7 +20,8 @@ const int g_FD = STDIN_FILENO;
 struct termios g_tty_current;
 /** The global default TTY state, to reset to after quitting. */
 struct termios g_tty_default;
-
+/** The terminal window size, from <sys/ioctl>. */
+struct winsize g_winsize; 
 
 
 /** @return A string representation of ANSI code for this enum. */
@@ -49,6 +51,8 @@ void printAt(int x, int y, const char* c, enum Color color) {
 int initializeTerminalSuccess() {
     if (!isatty(g_FD))
         return 0;
+    // Read window size (does not update automatically if resized)
+    ioctl(g_FD, TIOCGWINSZ, &g_winsize);
     // Disable STDOUT buffering
     setvbuf(stdout, NULL, _IONBF, 0);
     // Read current attributes
@@ -87,4 +91,12 @@ enum ArrowKey getMovementKeyPressed() {
         case 'D': return KEY_LEFT;
         default: return KEY_NONE;
     }
+}
+
+int getTerminalWidth() {
+    return g_winsize.ws_col;
+}
+
+int getTerminalHeight() {
+    return g_winsize.ws_row;
 }

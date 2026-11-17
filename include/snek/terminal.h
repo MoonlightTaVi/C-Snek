@@ -41,3 +41,9 @@ void resetTerminal();
 
 /** Returns whether (and which) arrow key was recently pressed by the user. */
 enum ArrowKey getMovementKeyPressed();
+
+/** Returns the width of the terminal, in symbols. */
+int getTerminalWidth();
+
+/** Returns the height of the terminal, in symbols. */
+int getTerminalHeight();
