@@ -48,7 +48,7 @@ void play(struct Snake* snake) {
         const struct Cell *tail = getTail(snake);
         // Erase tail and reset head's symbol to body symbol
         printAt(tail->x, tail->y, ".", C_DEFAULT);
-        printAt(head->x, head->y, "O", C_GREEN);
+        printAt(head->x, head->y, "o", C_GREEN);
         // Change head position
         move(snake, dx, dy);
         // Lose conditions = Quit
@@ -57,7 +57,7 @@ void play(struct Snake* snake) {
         if (eatsItself(snake))
             break;
         // Redraw head
-        printAt(head->x, head->y, "@", C_GREEN);
+        printAt(head->x, head->y, "O", C_GREEN);
     }
 }
 
