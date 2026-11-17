@@ -1,7 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "snek/terminal.h"
 #include "snek/core.h"
 
+
+/** Returns a random number in range [from;to). */
+int randomRange(int from, int to) {
+    return (rand() % (to - from)) + from;
+}
+
+/** Places the given cell at a random position on screen. */
+void randomizeCoordinates(struct Cell* cell) {
+    cell->x = randomRange(1, getTerminalWidth());
+    cell->y = randomRange(1, getTerminalHeight());
+}
 
 /** Prints debugging information about snake properties. */
 void debug(struct Snake* snake) {
@@ -19,8 +31,13 @@ void debug(struct Snake* snake) {
  * Does not initialize the terminal, because it may be insuccessful.
  */
 void begin(struct Snake* snake) {
+    const int initial_capacity = 8;
     const int initial_length = 4;
-    createSnake(snake, 8, initial_length, 1);
+    createSnake(
+        snake, initial_capacity, 
+        initial_length,         // Head X 
+        1                       // Head Y
+    );
     for (int i = 0; i < initial_length; ++i)
         growTail(snake, -1, 0);
 }
@@ -36,13 +53,16 @@ void end(struct Snake* snake) {
  * Quits game if the snake moves out of terminal screen bounds. 
  */
 void play(struct Snake* snake) {
-    enum ArrowKey last_key = KEY_RIGHT;
-    while (1) {
-        enum ArrowKey key = getMovementKeyPressed();
-        if (key != KEY_NONE)
-            last_key = key;
-        int dx = (int)(last_key == KEY_RIGHT) - (int)(last_key == KEY_LEFT);
-        int dy = (int)(last_key == KEY_DOWN)  - (int)(last_key == KEY_UP);
+    enum ArrowKey move_dir = KEY_RIGHT;
+    struct Cell apple;
+    randomizeCoordinates(&apple);
+
+    for (int turn = 0; 1; ++turn) {
+        enum ArrowKey key_press = getMovementKeyPressed();
+        if (key_press != KEY_NONE)
+            move_dir = key_press;
+        int dx = (int)(move_dir == KEY_RIGHT) - (int)(move_dir == KEY_LEFT);
+        int dy = (int)(move_dir == KEY_DOWN)  - (int)(move_dir == KEY_UP);
 
         const struct Cell *head = getHead(snake);
         const struct Cell *tail = getTail(snake);
@@ -58,6 +78,8 @@ void play(struct Snake* snake) {
             break;
         // Redraw head
         printAt(head->x, head->y, "O", C_GREEN);
+        // Print apple, blinking
+        printAt(apple.x, apple.y, (turn % 2 == 0 ? "@" : " "), C_RED);
     }
 }
 
