@@ -50,3 +50,6 @@ int getTerminalScreenHeight();
 
 /** Returns 1 if the point is inside the terminal's screen boundaries; 0 if it is outside. */
 int isPointInBoundaries(int x, int y); 
+
+/** When called manually, check if the window was resized. Resizes if it was. */
+void checkWindowResized(); 

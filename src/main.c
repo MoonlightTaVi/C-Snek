@@ -52,6 +52,8 @@ void play(struct Snake* snake) {
     randomizeCoordinates(&apple);
 
     for (int turn = 0; 1; ++turn) {
+        checkWindowResized();
+
         enum ArrowKey key_press = getMovementKeyPressed();
         if (key_press != KEY_NONE)
             move_dir = key_press;
