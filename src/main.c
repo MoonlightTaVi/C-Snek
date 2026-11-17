@@ -52,7 +52,7 @@ void play(struct Snake* snake) {
         // Change head position
         move(snake, dx, dy);
         // Lose conditions = Quit
-        if (head->x <= 0 || head->y <= 0 || head->x >= getTerminalWidth() || head->y >= getTerminalHeight())
+        if (!isPointInBoundaries(head->x, head->y))
             break;
         if (eatsItself(snake))
             break;

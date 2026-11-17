@@ -103,3 +103,7 @@ int getTerminalWidth() {
 int getTerminalHeight() {
     return g_winsize.ws_row;
 }
+
+int isPointInBoundaries(int x, int y) {
+    return x > 0 && y > 0 && x < getTerminalWidth() && y && getTerminalHeight();
+}

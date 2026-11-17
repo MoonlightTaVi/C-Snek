@@ -47,3 +47,6 @@ int getTerminalWidth();
 
 /** Returns the height of the terminal, in symbols. */
 int getTerminalHeight();
+
+/** Returns 1 if the point is inside the terminal's screen boundaries; 0 if it is outside. */
+int isPointInBoundaries(int x, int y); 
