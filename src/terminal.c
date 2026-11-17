@@ -8,11 +8,11 @@
 /** Erases the screen and resets cursor position. */
 #define ANSI_CLEAR "\033[2J\033[H"
 /** Text color red. */
-#define C_RED "\033[31m"
+#define COLOR_RED "\033[31m"
 /** Text color green. */
-#define C_GREEN "\033[32m"
+#define COLOR_GREEN "\033[32m"
 /** Reset text color. */
-#define C_DEF "\033[0m"
+#define COLOR_DEF "\033[0m"
 
 /** The default file descriptor for standard input. */
 const int g_FD = STDIN_FILENO;
@@ -27,9 +27,9 @@ struct winsize g_winsize;
 /** @return A string representation of ANSI code for this enum. */
 const char* getColor(enum Color c) {
     switch (c) {
-        case RED: return C_RED;
-        case GREEN: return C_GREEN;
-        default: return C_DEF;
+        case C_RED: return COLOR_RED;
+        case C_GREEN: return COLOR_GREEN;
+        default: return COLOR_DEF;
     }
 }
 
@@ -44,7 +44,7 @@ void printAt(int x, int y, const char* c, enum Color color) {
         y, x,
         getColor(color),
         c,
-        getColor(DEFAULT)
+        getColor(C_DEFAULT)
     );
 }
 
@@ -63,8 +63,8 @@ int initializeTerminalSuccess() {
 
     g_tty_current.c_lflag &= ~ICANON;
     g_tty_current.c_lflag &= ~ECHO;
-    g_tty_current.c_cc[VTIME] = 0;
-    g_tty_current.c_cc[VMIN] = 1;
+    g_tty_current.c_cc[VTIME] = 1;
+    g_tty_current.c_cc[VMIN] = 0;
 
     // Update current attributes
     if (tcsetattr(g_FD, TCSANOW, &g_tty_current) == -1)

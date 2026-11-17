@@ -3,7 +3,7 @@
 
 /** The color of text. */
 enum Color {
-    DEFAULT, RED, GREEN
+    C_DEFAULT, C_RED, C_GREEN
 };
 
 /** 
