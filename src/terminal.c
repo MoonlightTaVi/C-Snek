@@ -46,6 +46,8 @@ void printAt(int x, int y, const char* c, enum Color color) {
         c,
         getColor(C_DEFAULT)
     );
+    // Reset the cursor position; otherwise it follows the snake
+    printf("\033[1;1H");
 }
 
 int initializeTerminalSuccess() {
