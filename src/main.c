@@ -38,7 +38,6 @@ void end(struct Snake* snake) {
 void play(struct Snake* snake) {
     enum ArrowKey last_key = KEY_RIGHT;
     while (1) {
-        // TODO The shitter does move into itself and simply freezes
         enum ArrowKey key = getMovementKeyPressed();
         if (key != KEY_NONE)
             last_key = key;
@@ -52,8 +51,10 @@ void play(struct Snake* snake) {
         printAt(head->x, head->y, "O", C_GREEN);
         // Change head position
         move(snake, dx, dy);
-        // Check boundaries
+        // Lose conditions = Quit
         if (head->x <= 0 || head->y <= 0 || head->x >= getTerminalWidth() || head->y >= getTerminalHeight())
+            break;
+        if (eatsItself(snake))
             break;
         // Redraw head
         printAt(head->x, head->y, "@", C_GREEN);

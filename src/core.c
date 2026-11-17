@@ -37,14 +37,6 @@ void growTail(struct Snake* snake, int dx, int dy) {
 }
 
 void move(struct Snake* snake, int dx, int dy) {
-    // Disallow the snake to move into its tail
-    if (
-        snake->length > 1 
-        && snake->cells[0].x + dx == snake->cells[1].x
-        && snake->cells[0].y + dy == snake->cells[1].y
-       ) { return; } 
-    
-
     // First drag the tail
     for (size_t i = 0; i < snake->length - 1; ++i) {
         size_t j = snake->length - i - 1;
@@ -54,4 +46,13 @@ void move(struct Snake* snake, int dx, int dy) {
     // Then update the head's position
     snake->cells[0].x += dx; 
     snake->cells[0].y += dy; 
+}
+
+int eatsItself(struct Snake* snake) {
+    const struct Cell* head = getHead(snake);
+    for (size_t i = 1; i < snake->length; ++i) {
+        if (snake->cells[i].x == head->x && snake->cells[i].y == head->y)
+            return 1;
+    }
+    return 0;
 }

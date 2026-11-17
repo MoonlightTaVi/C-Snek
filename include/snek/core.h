@@ -57,3 +57,6 @@ void growTail(struct Snake* snake, int dx, int dy);
  * (backwards).
  */
 void move(struct Snake* snake, int dx, int dy); 
+
+/** Checks if the snake's head is at one of its body cells positions. */
+int eatsItself(struct Snake* snake);
