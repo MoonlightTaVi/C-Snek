@@ -94,7 +94,7 @@ int main() {
     getchar();
 
     if (!initializeTerminalSuccess())
-        return 1;
+        return EXIT_FAILURE;
 
     struct Snake snake;
     initialize(&snake);
@@ -106,5 +106,5 @@ int main() {
     printf("Your final length was %zu sneki-meters. Bye-bye.\n", snake.length);
     deleteSnake(&snake);
 
-    return 0;
+    return EXIT_SUCCESS;
 }

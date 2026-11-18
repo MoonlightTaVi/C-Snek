@@ -107,7 +107,7 @@ int initializeTerminalSuccess() {
         return 0;
     // Read window size (does not update automatically if resized)
     ioctl(g_FD, TIOCGWINSZ, &g_winsize);
-    // Disable STDOUT buffering
+    // Disable STDOUT buffering (only for this process)
     setvbuf(stdout, NULL, _IONBF, 0);
     // Read current attributes
     if (tcgetattr(g_FD, &g_tty_current) == -1)
