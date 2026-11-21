@@ -16,7 +16,7 @@ void randomizeCoordinates(struct Cell* cell) {
 }
 
 /** Prints debugging information about snake properties. */
-void debug(struct Snake* snake) {
+void debug(struct CellArray* snake) {
     if (snake == NULL)
         return;
     printf("Snake[length=%zu;capacity=%zu]\n", snake->length, snake->m_capacity);
@@ -30,7 +30,7 @@ void debug(struct Snake* snake) {
  * Initializes the snake. 
  * Does not initialize the terminal, because it may be insuccessful.
  */
-void initialize(struct Snake* snake) {
+void initialize(struct CellArray* snake) {
     const int initial_capacity = 8;
     const int initial_length = 4;
     createSnake(
@@ -46,10 +46,16 @@ void initialize(struct Snake* snake) {
  * Makes the snake move in a loop. Reads player's input. 
  * Quits game if the snake moves out of terminal screen bounds. 
  */
-void play(struct Snake* snake) {
+void play(struct CellArray* snake) {
+    const int LVL_UP_LENGTH = 10;
     enum ArrowKey move_dir = KEY_RIGHT;
-    struct Cell apple;
-    randomizeCoordinates(&apple);
+
+    struct CellArray apples;
+    initCellArray(&apples, 6);
+    apples.cells[newIndex(&apples)] = (struct Cell) {
+        randomRange(1, getTerminalScreenWidth()),
+        randomRange(1, getTerminalScreenHeight())
+    };
 
     for (int turn = 0; 1; ++turn) {
         checkWindowResized();
@@ -62,6 +68,7 @@ void play(struct Snake* snake) {
 
         const struct Cell *head = getHead(snake);
         const struct Cell *tail = getTail(snake);
+
         // Erase tail and reset head's symbol to body symbol
         printAt(tail->x, tail->y, " ", C_DEFAULT);
         printAt(head->x, head->y, "o", C_GREEN);
@@ -72,16 +79,31 @@ void play(struct Snake* snake) {
             break;
         if (eatsItself(snake))
             break;
-        // Eat apple
-        if (head->x == apple.x && head->y == apple.y) {
+        // Process apples
+        for (size_t i = 0; i < apples.length; ++i) {
+            // Render
+            struct Cell* apple = &(apples.cells[i]);
+            printAt(apple->x, apple->y, (turn % 3 != 0 ? "@" : " "), C_RED);
+            // Eat
+            if (head->x != apple->x || head->y != apple->y)
+                continue;
+            // Grow
             growTail(snake, 0, 0);
-            randomizeCoordinates(&apple);
+            randomizeCoordinates(apple);
+            // Increase number of apples as a LVL UP
+            // Each 10th length unit adds 1 apple
+            if (apples.length * LVL_UP_LENGTH < snake->length) {
+                apples.cells[newIndex(&apples)] = (struct Cell) {
+                    randomRange(1, getTerminalScreenWidth()),
+                    randomRange(1, getTerminalScreenHeight())
+                };
+            }
         }
         // Redraw head
         printAt(head->x, head->y, "O", C_GREEN);
-        // Print apple, blinking
-        printAt(apple.x, apple.y, (turn % 3 != 0 ? "@" : " "), C_RED);
     }
+
+    deleteArray(&apples);
 }
 
 
@@ -96,7 +118,7 @@ int main() {
     if (!initializeTerminalSuccess())
         return EXIT_FAILURE;
 
-    struct Snake snake;
+    struct CellArray snake;
     initialize(&snake);
     play(&snake);
 
@@ -104,7 +126,7 @@ int main() {
     resetTerminalToDefaults();
     
     printf("Your final length was %zu sneki-meters. Bye-bye.\n", snake.length);
-    deleteSnake(&snake);
+    deleteArray(&snake);
 
     return EXIT_SUCCESS;
 }

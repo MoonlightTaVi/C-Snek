@@ -15,7 +15,7 @@ struct Cell {
  * 
  * The first CELL of the snake is its head; all the others are its tail.
  */
-struct Snake {
+struct CellArray {
     struct Cell* cells;
     size_t length;
     size_t m_capacity;
@@ -23,31 +23,37 @@ struct Snake {
 
 
 /** Returns the first CELL node of the snake. */
-const struct Cell* getHead(struct Snake* snake); 
+const struct Cell* getHead(struct CellArray* snake); 
 
 /** Returns the last CELL node of the snake. */
-const struct Cell* getTail(struct Snake* snake); 
+const struct Cell* getTail(struct CellArray* snake); 
+
+/** Allocates the memory for the array. */
+void initCellArray(struct CellArray* arr, size_t initialCapacity);
 
 /** 
  * Creates a new snake with the given memory capacity, length of one CELL,
  * with its head at the given position. 
  */
-void createSnake(struct Snake* snake, size_t initialCapacity, int x, int y); 
+void createSnake(struct CellArray* snake, size_t initialCapacity, int x, int y); 
 
 /** Frees the occupied memory. Does not delete the snake itself. */
-void deleteSnake(struct Snake* snake);
+void deleteArray(struct CellArray* snake);
 
 /** 
  * Reallocates the internal memory to hold new capacity;
  * capacity is the number of CELLs.
  */
-void resize(struct Snake* snake, size_t newCapacity); 
+void resize(struct CellArray* snake, size_t newCapacity); 
+
+/** Returns the first free index of the array. Resizes the array, if needed. */
+size_t newIndex(struct CellArray* arr);
 
 /** 
  * Grows a new CELL at the tip of the snake's tail,
  * spreading the tail towards the given relative direction. 
  */
-void growTail(struct Snake* snake, int dx, int dy); 
+void growTail(struct CellArray* snake, int dx, int dy); 
 
 /**
  * Moves the head of the snake using relative position change;
@@ -55,7 +61,7 @@ void growTail(struct Snake* snake, int dx, int dy);
  * Does not move the snake if it is trying to move towards its tail
  * (backwards).
  */
-void moveSnake(struct Snake* snake, int dx, int dy); 
+void moveSnake(struct CellArray* snake, int dx, int dy); 
 
 /** Checks if the snake's head is at one of its body cells positions. */
-int eatsItself(struct Snake* snake);
+int eatsItself(struct CellArray* snake);
