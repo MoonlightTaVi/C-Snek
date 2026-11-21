@@ -61,6 +61,7 @@ void checkWindowResized() {
     ioctl(g_FD, TIOCGWINSZ, &g_winsize);
     g_win_resized = 0;
     printf(ANSI_BELL);
+    printf(ANSI_CLEAR);
 }
 
 int getTerminalScreenWidth() {
@@ -72,7 +73,7 @@ int getTerminalScreenHeight() {
 }
 
 int isPointInBoundaries(int x, int y) {
-    return x > 0 && y > 0 && x < getTerminalScreenWidth() && y && getTerminalScreenHeight();
+    return x > 0 && y > 0 && x < getTerminalScreenWidth() && y < getTerminalScreenHeight();
 }
 
 

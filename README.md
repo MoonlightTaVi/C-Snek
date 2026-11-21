@@ -43,6 +43,5 @@ For more information, read the source code (it is commented and documented).
 
 # Known issues
 
-- If you shrink the terminal towards its bottom right corner, it sometimes leads to undefined behaviour
 - Terminal does not clear itself when the game starts (it is not a bug, it is a feature) 
 - RNG (for random apple position) is determined and will always be the same (a "C feature")
