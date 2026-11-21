@@ -41,8 +41,8 @@ void deleteArray(struct CellArray* snake);
  */
 void resize(struct CellArray* snake, size_t new_capacity); 
 
-/** Returns the first free index of the array. Resizes the array, if needed. */
-size_t newIndex(struct CellArray* arr);
+/** Appends a new cell with the given coordinates to the end of the array. */
+void append(struct CellArray* arr, int cell_x, int cell_y);
 
 /** 
  * Grows a new CELL at the tip of the snake's tail,

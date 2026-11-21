@@ -34,8 +34,7 @@ void initialize(struct CellArray* snake) {
     const int initial_capacity = 8;
     const int initial_length = 4;
     initCellArray(snake, initial_capacity);
-    snake->length = initial_length;
-    snake->cells[0] = (struct Cell) { initial_length, 1 }; // { X, Y }
+    append(snake, initial_length, 1);
     for (int i = 0; i < initial_length; ++i)
         growTail(snake, -1, 0);
 }
@@ -50,10 +49,11 @@ void play(struct CellArray* snake) {
 
     struct CellArray apples;
     initCellArray(&apples, 6);
-    apples.cells[newIndex(&apples)] = (struct Cell) {
+    append(
+        &apples,
         randomRange(1, getTerminalScreenWidth()),
         randomRange(1, getTerminalScreenHeight())
-    };
+    );
 
     for (int turn = 0; 1; ++turn) {
         checkWindowResized();
@@ -91,10 +91,11 @@ void play(struct CellArray* snake) {
             // Increase number of apples as a LVL UP
             // Each 10th length unit adds 1 apple
             if (apples.length * LVL_UP_LENGTH < snake->length) {
-                apples.cells[newIndex(&apples)] = (struct Cell) {
+                append(
+                    &apples,
                     randomRange(1, getTerminalScreenWidth()),
                     randomRange(1, getTerminalScreenHeight())
-                };
+                );
             }
         }
         // Redraw head

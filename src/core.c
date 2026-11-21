@@ -28,10 +28,15 @@ void resize(struct CellArray* snake, size_t new_capacity) {
     snake->m_capacity = new_capacity;
 }
 
+/** Calculates the first free index of the array to append; resizes the array if needed. */
 size_t newIndex(struct CellArray* arr) {
     if (arr->length == arr->m_capacity)
         resize(arr, arr->m_capacity * 2);
     return (arr->length)++;
+}
+
+void append(struct CellArray* arr, int cell_x, int cell_y) {
+    arr->cells[newIndex(arr)] = (struct Cell) { cell_x, cell_y };
 }
 
 void growTail(struct CellArray* snake, int dx, int dy) {
