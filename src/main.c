@@ -33,11 +33,9 @@ void debug(struct CellArray* snake) {
 void initialize(struct CellArray* snake) {
     const int initial_capacity = 8;
     const int initial_length = 4;
-    createSnake(
-        snake, initial_capacity, 
-        initial_length,         // Head X 
-        1                       // Head Y
-    );
+    initCellArray(snake, initial_capacity);
+    snake->length = initial_length;
+    snake->cells[0] = (struct Cell) { initial_length, 1 }; // { X, Y }
     for (int i = 0; i < initial_length; ++i)
         growTail(snake, -1, 0);
 }

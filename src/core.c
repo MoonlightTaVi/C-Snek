@@ -9,34 +9,23 @@ const struct Cell* getTail(struct CellArray* snake) {
     return &(snake->cells[snake->length - 1]);
 }
 
-void initCellArray(struct CellArray* arr, size_t initialCapacity) {
-    if (initialCapacity == 0) {
+void initCellArray(struct CellArray* arr, size_t initial_capacity) {
+    if (initial_capacity == 0) {
         return;
     }
 
-    arr->cells = (struct Cell*) malloc(sizeof(struct Cell) * initialCapacity);
-    arr->m_capacity = initialCapacity;
+    arr->cells = (struct Cell*) malloc(sizeof(struct Cell) * initial_capacity);
+    arr->m_capacity = initial_capacity;
     arr->length = 0;
-}
-
-void createSnake(struct CellArray* snake, size_t initialCapacity, int x, int y) {
-    if (initialCapacity == 0) {
-        return;
-    }
-
-    snake->cells = (struct Cell*) malloc(sizeof(struct Cell) * initialCapacity);
-    snake->m_capacity = initialCapacity;
-    snake->length = 1;
-    snake->cells[0] = (struct Cell) { x, y };
 }
 
 void deleteArray(struct CellArray* snake) {
     free(snake->cells);
 }
 
-void resize(struct CellArray* snake, size_t newCapacity) {
-    snake->cells = (struct Cell*) realloc(snake->cells, sizeof(struct Cell) * newCapacity);
-    snake->m_capacity = newCapacity;
+void resize(struct CellArray* snake, size_t new_capacity) {
+    snake->cells = (struct Cell*) realloc(snake->cells, sizeof(struct Cell) * new_capacity);
+    snake->m_capacity = new_capacity;
 }
 
 size_t newIndex(struct CellArray* arr) {

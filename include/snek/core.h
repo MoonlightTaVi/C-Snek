@@ -29,13 +29,8 @@ const struct Cell* getHead(struct CellArray* snake);
 const struct Cell* getTail(struct CellArray* snake); 
 
 /** Allocates the memory for the array. */
-void initCellArray(struct CellArray* arr, size_t initialCapacity);
+void initCellArray(struct CellArray* arr, size_t initial_capacity);
 
-/** 
- * Creates a new snake with the given memory capacity, length of one CELL,
- * with its head at the given position. 
- */
-void createSnake(struct CellArray* snake, size_t initialCapacity, int x, int y); 
 
 /** Frees the occupied memory. Does not delete the snake itself. */
 void deleteArray(struct CellArray* snake);
@@ -44,7 +39,7 @@ void deleteArray(struct CellArray* snake);
  * Reallocates the internal memory to hold new capacity;
  * capacity is the number of CELLs.
  */
-void resize(struct CellArray* snake, size_t newCapacity); 
+void resize(struct CellArray* snake, size_t new_capacity); 
 
 /** Returns the first free index of the array. Resizes the array, if needed. */
 size_t newIndex(struct CellArray* arr);
