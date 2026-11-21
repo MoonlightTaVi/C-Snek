@@ -11,8 +11,15 @@ Written in C. Only standard libraries.
 - The easiest way to eat yourself is to **move backwards**
 (the game won't prevent you from doing that)
 
+To provide some original experience, I've also added a "level up" feature that makes the game more enjoyable: with every 10th unit of your snake's length the amount of apples on the screen is increased by 1. This way, only the early game is painful; the longer you get, the faster and easier it is for you to get even longer than that. 
+
+My personal record up to this moment is about 300 snekimeters. I wonder if the game may break you PC if your snake is too long. Probably you will lose to a hardlock long time before reaching this moment.
+
 # Requirements
-- Linux (tested), MacOS or Windows 10+ w/ WSL (should work)
+The versions below is just what I use;
+other versions may work too.
+
+- Linux (tested), MacOS (should work natively), Windows 10+ w/ WSL (should work)
 - GCC v14.2.0 (or equivalent) compiler
 - GNU Make v4.4.1
 
@@ -22,12 +29,14 @@ Run one of the following commands from the root of the project
 - `make` or `make all` will build the project and run
 - `make build` will only build, `make run` will only run
 
+When built, run the game from the terminal like this: `./Snek`.
+
 # How to do the same
 The following standard libraries were used:
 - `termios.h` is used to configure terminal emulator (disable canonical mode*, disable echo**, configure keyboard input)
 - `stdio.h` performs basic `printf`
 - `stduni.h` reads raw input (`read`)
-- `stdlib.h` is simply needed for `size_t` (IIRC), because it suits better for `for` loops
+- `stdlib.h` is simply needed for `size_t` (IIRC), because it suits better for `for` loops (spoiler: it isn't better actually, don't mind it)
 - `ioctl.h` reads current terminal window size; `signal.h` is used to catch the moment when this window is resized; the `200809L` (i.e. September 2008) C standard is needed to intercept signals properly (but it is still bugged and sometimes leads to undefined behaviour when the terminal is resized)
 - To manipulate other terminal aspects (clear terminal, change color or put a character at some position) I simply use [ASNI](https://en.wikipedia.org/wiki/ANSI_escape_code) escape codes
 
@@ -44,4 +53,4 @@ For more information, read the source code (it is commented and documented).
 # Known issues
 
 - Terminal does not clear itself when the game starts (it is not a bug, it is a feature) 
-- RNG (for random apple position) is determined and will always be the same (a "C feature")
+- RNG (for random apple position) is determined and will always be the same (a "C feature") (it is actually funny and feels like some "hand crafted level design")
