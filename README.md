@@ -8,9 +8,12 @@ Written in C. Only standard libraries.
 - Another way to quit the game is to **lose**
 - The only way to lose when you **eat yourself**
 
+You can move outside the screen; you will find yourself on the opposite side, like in PacMan.
+You can also resize the terminal window; this will help you make the game area smaller, so you won't need to move across great distances to "fill your stomach".
+
 To provide some original experience, I've also added a "level up" feature that makes the game more enjoyable: with every 10th unit of your snake's length the amount of apples on the screen is increased by 1. This way, only the early game is painful; the longer you get, the faster and easier it is for you to get even longer than that. 
 
-My personal record up to this moment is about 300 snekimeters. I wonder if the game may break you PC if your snake is too long. Probably you will lose to a hardlock long time before reaching this moment.
+My personal record up to this moment is somewhat around 100 snekimeters. I wonder if the game may break you PC if your snake is too long. Probably you will lose to a hardlock long time before reaching this moment.
 
 # Requirements
 The versions below is just what I use;
