@@ -15,6 +15,10 @@ enum ArrowKey {
 };
 
 
+/** @return 1 if the two given arrow key directions are the opposites of each other; 0 otherwise. */
+int areOppositeDirections(enum ArrowKey a, enum ArrowKey b);
+
+
 /** Clears the entire screen and resets the cursor position. */
 void clearTerminalScreen();
 

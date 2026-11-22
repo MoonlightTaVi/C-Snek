@@ -155,3 +155,20 @@ enum ArrowKey getMovementKeyPressed() {
         default: return KEY_NONE;
     }
 }
+
+/** @return The key that represents the opposite direction to the given argument, or KEY_NONE. */
+enum ArrowKey getOppositeOf(enum ArrowKey direction) {
+    switch (direction) {
+        case KEY_DOWN: return KEY_UP;
+        case KEY_UP: return KEY_DOWN;
+        case KEY_LEFT: return KEY_RIGHT;
+        case KEY_RIGHT: return KEY_LEFT;
+        default: return KEY_NONE;
+    }
+}
+
+int areOppositeDirections(enum ArrowKey a, enum ArrowKey b) {
+    if (a == KEY_NONE || b == KEY_NONE)
+        return 0;
+    return getOppositeOf(a) == b;
+}

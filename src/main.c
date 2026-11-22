@@ -69,7 +69,7 @@ void play(struct CellArray* snake) {
         }
 
         enum ArrowKey key_press = getMovementKeyPressed();
-        if (key_press != KEY_NONE)
+        if (key_press != KEY_NONE && !areOppositeDirections(move_dir, key_press))
             move_dir = key_press;
         int dx = (int)(move_dir == KEY_RIGHT) - (int)(move_dir == KEY_LEFT);
         int dy = (int)(move_dir == KEY_DOWN)  - (int)(move_dir == KEY_UP);

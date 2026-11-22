@@ -8,8 +8,6 @@ Written in C. Only standard libraries.
 - You lose when you **leave the screen boundaries**
 (that includes cases when you shrink the window)
 - You lose when you **eat yourself**
-- The easiest way to eat yourself is to **move backwards**
-(the game won't prevent you from doing that)
 
 To provide some original experience, I've also added a "level up" feature that makes the game more enjoyable: with every 10th unit of your snake's length the amount of apples on the screen is increased by 1. This way, only the early game is painful; the longer you get, the faster and easier it is for you to get even longer than that. 
 
