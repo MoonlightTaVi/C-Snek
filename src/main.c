@@ -19,7 +19,7 @@ void randomizeCoordinates(struct Cell* cell) {
 int loopWithinBoundaries(int original, int boundaries) {
     while (original < 0)
         original += boundaries;
-    return original % boundaries;
+    return (original % boundaries);
 }
 
 /** Prints debugging information about snake properties. */
@@ -64,14 +64,12 @@ void play(struct CellArray* snake) {
 
     for (int turn = 0; 1; ++turn) {
         // When the window is resized, some of the apples may be out of boundaries
-        // We put them back
-        // This technique may actually be used as a cheat (when the apple is hard to reach)
-        // I don't really care, have fun
+        // We put them back, to fit within boundaries
         if (checkWindowResized()) {
             for (size_t i = 0; i < apples.length; ++i) {
                 struct Cell* apple = &apples.cells[i];
-                apple->x %= getTerminalScreenWidth();
-                apple->y %= getTerminalScreenHeight();
+                apple->x = 1 + loopWithinBoundaries(apple->x - 1, getTerminalScreenWidth());
+                apple->y = 1 + loopWithinBoundaries(apple->y - 1, getTerminalScreenHeight());
             }
         }
 
@@ -93,8 +91,8 @@ void play(struct CellArray* snake) {
         moveSnake(snake, dx, dy);
         // Do a PacMan loop when out of bounds
         if (!isPointInBoundaries(head->x, head->y)) {
-            head->x = loopWithinBoundaries(head->x, getTerminalScreenWidth() + 1);
-            head->y = loopWithinBoundaries(head->y, getTerminalScreenHeight() + 1);
+            head->x = 1 + loopWithinBoundaries(head->x - 1, getTerminalScreenWidth());
+            head->y = 1 + loopWithinBoundaries(head->y - 1, getTerminalScreenHeight());
         }
         // Lose conditions = Quit
         if (eatsItself(snake))
