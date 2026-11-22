@@ -37,7 +37,7 @@ The following standard libraries were used:
 - `stdio.h` performs basic `printf`
 - `stduni.h` reads raw input (`read`)
 - `stdlib.h` is simply needed for `size_t` (IIRC), because it suits better for `for` loops (spoiler: it isn't better actually, don't mind it)
-- `ioctl.h` reads current terminal window size; `signal.h` is used to catch the moment when this window is resized; the `200809L` (i.e. September 2008) C standard is needed to intercept signals properly (but it is still bugged and sometimes leads to undefined behaviour when the terminal is resized)
+- `ioctl.h` reads current terminal window size; `signal.h` is used to catch the moment when this window is resized; the `200809L` (i.e. September 2008) C standard is needed to intercept signals properly.
 - To manipulate other terminal aspects (clear terminal, change color or put a character at some position) I simply use [ASNI](https://en.wikipedia.org/wiki/ANSI_escape_code) escape codes
 
 (*) The canonical mode is the default one; it only reads input when you press the "enter" key. The opposite is the "raw" mode, which reads input immediately (either on "timeout" or "minimal byte received" basis).
