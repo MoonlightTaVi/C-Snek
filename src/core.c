@@ -1,11 +1,11 @@
 #include "snek/core.h"
 
 
-const struct Cell* getHead(struct CellArray* snake) {
+struct Cell* getHead(struct CellArray* snake) {
     return &(snake->cells[0]);
 }
 
-const struct Cell* getTail(struct CellArray* snake) {
+struct Cell* getTail(struct CellArray* snake) {
     return &(snake->cells[snake->length - 1]);
 }
 

@@ -23,10 +23,10 @@ struct CellArray {
 
 
 /** Returns the first CELL node of the snake. */
-const struct Cell* getHead(struct CellArray* snake); 
+struct Cell* getHead(struct CellArray* snake); 
 
 /** Returns the last CELL node of the snake. */
-const struct Cell* getTail(struct CellArray* snake); 
+struct Cell* getTail(struct CellArray* snake); 
 
 /** Allocates the memory for the array. */
 void initCellArray(struct CellArray* arr, size_t initial_capacity);

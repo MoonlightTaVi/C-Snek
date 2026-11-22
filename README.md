@@ -6,9 +6,7 @@ Written in C. Only standard libraries.
 - You can speed up by **holding** the key
 - Press `Q` (without shift) to quit while playing
 - Another way to quit the game is to **lose**
-- You lose when you **leave the screen boundaries**
-(that includes cases when you shrink the window)
-- You lose when you **eat yourself**
+- The only way to lose when you **eat yourself**
 
 To provide some original experience, I've also added a "level up" feature that makes the game more enjoyable: with every 10th unit of your snake's length the amount of apples on the screen is increased by 1. This way, only the early game is painful; the longer you get, the faster and easier it is for you to get even longer than that. 
 
@@ -51,5 +49,5 @@ For more information, read the source code (it is commented and documented).
 
 # Known issues
 
-- Terminal does not clear itself when the game starts (it is not a bug, it is a feature) 
+- Terminal does not clear itself when the game starts (it is not a bug, it is a feature). But it is being cleared when the screen is resized (to avoid artifacts). 
 - RNG (for random apple position) is determined and will always be the same (a "C feature") (it is actually funny and feels like some "hand crafted level design")

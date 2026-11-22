@@ -15,6 +15,13 @@ void randomizeCoordinates(struct Cell* cell) {
     cell->y = randomRange(1, getTerminalScreenHeight());
 }
 
+/** Makes ORIGINAL fit within [0;BOUDARIES). Works for positive and negative numbers. */
+int loopWithinBoundaries(int original, int boundaries) {
+    while (original < 0)
+        original += boundaries;
+    return original % boundaries;
+}
+
 /** Prints debugging information about snake properties. */
 void debug(struct CellArray* snake) {
     if (snake == NULL)
@@ -76,17 +83,20 @@ void play(struct CellArray* snake) {
         int dx = (int)(move_dir == KEY_RIGHT) - (int)(move_dir == KEY_LEFT);
         int dy = (int)(move_dir == KEY_DOWN)  - (int)(move_dir == KEY_UP);
 
-        const struct Cell *head = getHead(snake);
-        const struct Cell *tail = getTail(snake);
+        struct Cell *head = getHead(snake);
+        struct Cell *tail = getTail(snake);
 
         // Erase tail and reset head's symbol to body symbol
         printAt(tail->x, tail->y, " ", C_DEFAULT);
         printAt(head->x, head->y, "o", C_GREEN);
         // Change head position
         moveSnake(snake, dx, dy);
+        // Do a PacMan loop when out of bounds
+        if (!isPointInBoundaries(head->x, head->y)) {
+            head->x = loopWithinBoundaries(head->x, getTerminalScreenWidth() + 1);
+            head->y = loopWithinBoundaries(head->y, getTerminalScreenHeight() + 1);
+        }
         // Lose conditions = Quit
-        if (!isPointInBoundaries(head->x, head->y))
-            break;
         if (eatsItself(snake))
             break;
         // Process apples
