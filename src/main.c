@@ -56,7 +56,17 @@ void play(struct CellArray* snake) {
     );
 
     for (int turn = 0; 1; ++turn) {
-        checkWindowResized();
+        // When the window is resized, some of the apples may be out of boundaries
+        // We put them back
+        // This technique may actually be used as a cheat (when the apple is hard to reach)
+        // I don't really care, have fun
+        if (checkWindowResized()) {
+            for (size_t i = 0; i < apples.length; ++i) {
+                struct Cell* apple = &apples.cells[i];
+                apple->x %= getTerminalScreenWidth();
+                apple->y %= getTerminalScreenHeight();
+            }
+        }
 
         enum ArrowKey key_press = getMovementKeyPressed();
         if (key_press != KEY_NONE)

@@ -52,4 +52,4 @@ int getTerminalScreenHeight();
 int isPointInBoundaries(int x, int y); 
 
 /** When called manually, check if the window was resized. Resizes if it was. */
-void checkWindowResized(); 
+int checkWindowResized(); 
