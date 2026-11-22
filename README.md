@@ -4,7 +4,8 @@ Written in C. Only standard libraries.
 # Controls
 - Use **arrow keys** to move around
 - You can speed up by **holding** the key
-- The only way to quit the game is to **lose**
+- Press `Q` (without shift) to quit while playing
+- Another way to quit the game is to **lose**
 - You lose when you **leave the screen boundaries**
 (that includes cases when you shrink the window)
 - You lose when you **eat yourself**

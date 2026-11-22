@@ -143,6 +143,9 @@ void resetTerminalToDefaults() {
 enum ArrowKey getMovementKeyPressed() {
     char buff[3];
     size_t count = read(g_FD, buff, 3);
+    // Let's use 'Q' to quit the game
+    if (count == 1 && buff[0] == 'q')
+        return KEY_EXIT;
     // Arrow keys always contain 3 bytes; other keys may be different
     if (count != 3)
         return KEY_NONE;

@@ -69,6 +69,8 @@ void play(struct CellArray* snake) {
         }
 
         enum ArrowKey key_press = getMovementKeyPressed();
+        if (key_press == KEY_EXIT)
+            break;
         if (key_press != KEY_NONE && !areOppositeDirections(move_dir, key_press))
             move_dir = key_press;
         int dx = (int)(move_dir == KEY_RIGHT) - (int)(move_dir == KEY_LEFT);
@@ -120,7 +122,7 @@ int main() {
     printf("WELCOME TO THE SNEK GAME!\n");
     printf("(play as snek and eat a snack)\n\n");
     printf("Press Ctrl+C to QUIT NOW.\n");
-    printf("Eat yourself or go outside the screen to QUIT LATER.\n");
+    printf("Press Q to quit LATER.\n");
     printf("\n\nPress Enter to continue...\n\n");
     getchar();
 

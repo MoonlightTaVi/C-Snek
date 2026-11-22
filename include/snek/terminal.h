@@ -9,9 +9,10 @@ enum Color {
 /** 
  * Represents an arrow 'key pressed' event for basic movement input,
  * as well as 'no key/some other key pressed' default fallback.
+ * KEY_EXIT represents the key which is used to quit the game.
  */
 enum ArrowKey {
-    KEY_NONE, KEY_UP, KEY_DOWN, KEY_RIGHT, KEY_LEFT 
+    KEY_NONE, KEY_EXIT, KEY_UP, KEY_DOWN, KEY_RIGHT, KEY_LEFT 
 };
 
 
