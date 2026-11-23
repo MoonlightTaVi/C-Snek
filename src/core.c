@@ -1,31 +1,74 @@
 #include "snek/core.h"
 
 
-struct Cell* getHead(struct CellArray* snake) {
-    return &(snake->cells[0]);
+
+/** A node of a linked list. */
+typedef struct CellNode {
+    struct CellNode* prev;
+    struct CellNode* next;
+    struct Cell* cell;
+} CellNode;
+
+/** A linked list representation of a snake. */
+typedef struct {
+    CellNode* head;
+    CellNode* tail;
+} LinkedSnake;
+
+
+/** When 1, indicates that the snake has been created and was not dosposed yet. */
+int g_is_initialized = 0;
+/** The only snake struct that may be present in the game. */
+struct CellArray g_snake;
+/** The same playable snake, but as a linked list. */
+LinkedSnake g_linked_snake;
+
+
+struct Cell* getHead() {
+    return &g_snake.cells[0];
+    //return g_linked_snake.head->cell;
 }
 
-struct Cell* getTail(struct CellArray* snake) {
-    return &(snake->cells[snake->length - 1]);
+struct Cell* getTail() {
+    return &g_snake.cells[g_snake.length - 1];
+    //return g_linked_snake.tail->cell;
 }
 
-void initCellArray(struct CellArray* arr, size_t initial_capacity) {
-    if (initial_capacity == 0) {
-        return;
-    }
-
-    arr->cells = (struct Cell*) malloc(sizeof(struct Cell) * initial_capacity);
-    arr->m_capacity = initial_capacity;
-    arr->length = 0;
+struct CellArray initCellArray(size_t initial_capacity) {
+    if (initial_capacity == 0)
+        initial_capacity = 8;
+    return (struct CellArray) {
+        malloc(sizeof(struct Cell) * initial_capacity),
+        0,
+        initial_capacity
+    };
 }
 
-void deleteArray(struct CellArray* snake) {
-    free(snake->cells);
+struct CellArray* initSnake() {
+    if (g_is_initialized)
+        goto hell;
+    g_is_initialized = 1;
+
+    const int initial_capacity = 8;
+    const int initial_length = 4;
+    g_snake = initCellArray(initial_capacity);
+    append(&g_snake, initial_length, 1);
+    for (int i = 0; i < initial_length; ++i)
+        growTail(-1, 0);
+    
+    hell:
+    return &g_snake;
 }
 
-void resize(struct CellArray* snake, size_t new_capacity) {
-    snake->cells = (struct Cell*) realloc(snake->cells, sizeof(struct Cell) * new_capacity);
-    snake->m_capacity = new_capacity;
+void deleteArray(struct CellArray* arr) {
+    if (arr == &g_snake)
+        g_is_initialized = 0;
+    free(arr->cells);
+}
+
+void resize(struct CellArray* arr, size_t new_capacity) {
+    arr->cells = (struct Cell*) realloc(arr->cells, sizeof(struct Cell) * new_capacity);
+    arr->m_capacity = new_capacity;
 }
 
 /** Calculates the first free index of the array to append; resizes the array if needed. */
@@ -39,29 +82,29 @@ void append(struct CellArray* arr, int cell_x, int cell_y) {
     arr->cells[newIndex(arr)] = (struct Cell) { cell_x, cell_y };
 }
 
-void growTail(struct CellArray* snake, int dx, int dy) {
-    if (snake->length == snake->m_capacity)
-        resize(snake, snake->m_capacity * 2);
-    const struct Cell tail = *getTail(snake);
-    snake->cells[snake->length++] = (struct Cell) { tail.x + dx, tail.y + dy };
+void growTail(int dx, int dy) {
+    if (g_snake.length == g_snake.m_capacity)
+        resize(&g_snake, g_snake.m_capacity * 2);
+    struct Cell* tail = getTail(g_snake);
+    append(&g_snake, tail->x + dx, tail->y + dy);
 }
 
-void moveSnake(struct CellArray* snake, int dx, int dy) {
+void moveSnake(int dx, int dy) {
     // First drag the tail
-    for (size_t i = 0; i < snake->length - 1; ++i) {
-        size_t j = snake->length - i - 1;
-        snake->cells[j].x = snake->cells[j - 1].x; 
-        snake->cells[j].y = snake->cells[j - 1].y; 
+    for (size_t i = 0; i < g_snake.length - 1; ++i) {
+        size_t j = g_snake.length - i - 1;
+        g_snake.cells[j].x = g_snake.cells[j - 1].x; 
+        g_snake.cells[j].y = g_snake.cells[j - 1].y; 
     }
     // Then update the head's position
-    snake->cells[0].x += dx; 
-    snake->cells[0].y += dy; 
+    g_snake.cells[0].x += dx; 
+    g_snake.cells[0].y += dy; 
 }
 
-int eatsItself(struct CellArray* snake) {
-    const struct Cell* head = getHead(snake);
-    for (size_t i = 1; i < snake->length; ++i) {
-        if (snake->cells[i].x == head->x && snake->cells[i].y == head->y)
+int snakeEatsItself() {
+    struct Cell* head = getHead(g_snake);
+    for (size_t i = 1; i < g_snake.length; ++i) {
+        if (g_snake.cells[i].x == head->x && g_snake.cells[i].y == head->y)
             return 1;
     }
     return 0;

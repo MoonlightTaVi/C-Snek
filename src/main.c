@@ -33,18 +33,7 @@ void debug(struct CellArray* snake) {
     printf("\n");
 }
 
-/** 
- * Initializes the snake. 
- * Does not initialize the terminal, because it may be insuccessful.
- */
-void initialize(struct CellArray* snake) {
-    const int initial_capacity = 8;
-    const int initial_length = 4;
-    initCellArray(snake, initial_capacity);
-    append(snake, initial_length, 1);
-    for (int i = 0; i < initial_length; ++i)
-        growTail(snake, -1, 0);
-}
+
 
 /** 
  * Makes the snake move in a loop. Reads player's input. 
@@ -54,8 +43,7 @@ void play(struct CellArray* snake) {
     const int LVL_UP_LENGTH = 10;
     enum ArrowKey move_dir = KEY_RIGHT;
 
-    struct CellArray apples;
-    initCellArray(&apples, 6);
+    struct CellArray apples = initCellArray(6);
     append(
         &apples,
         randomRange(1, getTerminalScreenWidth()),
@@ -81,21 +69,21 @@ void play(struct CellArray* snake) {
         int dx = (int)(move_dir == KEY_RIGHT) - (int)(move_dir == KEY_LEFT);
         int dy = (int)(move_dir == KEY_DOWN)  - (int)(move_dir == KEY_UP);
 
-        struct Cell *head = getHead(snake);
-        struct Cell *tail = getTail(snake);
+        struct Cell *head = getHead();
+        struct Cell *tail = getTail();
 
         // Erase tail and reset head's symbol to body symbol
         printAt(tail->x, tail->y, " ", C_DEFAULT);
         printAt(head->x, head->y, "o", C_GREEN);
         // Change head position
-        moveSnake(snake, dx, dy);
+        moveSnake(dx, dy);
         // Do a PacMan loop when out of bounds
         if (!isPointInBoundaries(head->x, head->y)) {
             head->x = 1 + loopWithinBoundaries(head->x - 1, getTerminalScreenWidth());
             head->y = 1 + loopWithinBoundaries(head->y - 1, getTerminalScreenHeight());
         }
         // Lose conditions = Quit
-        if (eatsItself(snake))
+        if (snakeEatsItself(snake))
             break;
         // Process apples
         for (size_t i = 0; i < apples.length; ++i) {
@@ -106,7 +94,7 @@ void play(struct CellArray* snake) {
             if (head->x != apple->x || head->y != apple->y)
                 continue;
             // Grow
-            growTail(snake, 0, 0);
+            growTail(0, 0);
             randomizeCoordinates(apple);
             // Increase number of apples as a LVL UP
             // Each 10th length unit adds 1 apple
@@ -137,15 +125,14 @@ int main() {
     if (!initializeTerminalSuccess())
         return EXIT_FAILURE;
 
-    struct CellArray snake;
-    initialize(&snake);
-    play(&snake);
+    struct CellArray* snake = initSnake();
+    play(snake);
 
     clearTerminalScreen();
     resetTerminalToDefaults();
     
-    printf("Your final length was %zu sneki-meters. Bye-bye.\n", snake.length);
-    deleteArray(&snake);
+    printf("Your final length was %zu sneki-meters. Bye-bye.\n", snake->length);
+    deleteArray(snake);
 
     return EXIT_SUCCESS;
 }
