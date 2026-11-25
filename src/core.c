@@ -1,27 +1,18 @@
 #include "snek/core.h"
 
-
-
-/** A node of a linked list. */
-typedef struct CellNode {
-    struct CellNode* prev;
-    struct CellNode* next;
-    struct Cell* cell;
-} CellNode;
-
-/** A linked list representation of a snake. */
-typedef struct {
-    CellNode* head;
-    CellNode* tail;
-} LinkedSnake;
+#ifdef T
+#undef T
+#endif
+#define T Cell
+#include "snek/linkedlist.h"
 
 
 /** When 1, indicates that the snake has been created and was not dosposed yet. */
 int g_is_initialized = 0;
 /** The only snake struct that may be present in the game. */
 struct CellArray g_snake;
-/** The same playable snake, but as a linked list. */
-LinkedSnake g_linked_snake;
+/** The same playable snake, but as a linked list. For optimization purposes. */
+LinkedList_Cell g_linked_snake;
 
 
 struct Cell* getHead() {
@@ -51,18 +42,26 @@ struct CellArray* initSnake() {
 
     const int initial_capacity = 8;
     const int initial_length = 4;
+
     g_snake = initCellArray(initial_capacity);
     append(&g_snake, initial_length, 1);
-    for (int i = 0; i < initial_length; ++i)
+    // The first linked list element must be added manually:
+    g_linked_snake = initList_Cell(&g_snake.cells[0]);
+
+    for (int i = 0; i < initial_length; ++i) {
+        // Also writes to the linked list:
         growTail(-1, 0);
+    }
     
     hell:
     return &g_snake;
 }
 
 void deleteArray(struct CellArray* arr) {
-    if (arr == &g_snake)
+    if (arr == &g_snake) {
         g_is_initialized = 0;
+        eraseNodes_Cell(&g_linked_snake);
+    }
     free(arr->cells);
 }
 
@@ -87,6 +86,7 @@ void growTail(int dx, int dy) {
         resize(&g_snake, g_snake.m_capacity * 2);
     struct Cell* tail = getTail(g_snake);
     append(&g_snake, tail->x + dx, tail->y + dy);
+    addNode_Cell(&g_linked_snake, &g_snake.cells[g_snake.length - 1]);
 }
 
 void moveSnake(int dx, int dy) {
