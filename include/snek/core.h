@@ -3,10 +3,10 @@
 
 
 /** A position in 2D grid. */
-struct Cell {
+typedef struct Cell {
     int x;
     int y;
-};
+} Cell;
 
 /** 
  * The struct is basically a dynamic array of CELLs, 
@@ -15,11 +15,11 @@ struct Cell {
  * 
  * The first CELL of the snake is its head; all the others are its tail.
  */
-struct CellArray {
+typedef struct CellArray {
     struct Cell* cells;
     size_t length;
     size_t m_capacity;
-};
+} CellArray;
 
 
 /** Returns the first CELL node of the snake. */
