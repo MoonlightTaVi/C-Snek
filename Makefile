@@ -27,7 +27,7 @@ clean:
 	mkdir $(BUILD_DIR)
 
 run:
-	./$(BUILD_DIR)/$(APPNAME)
+	$(BUILD_DIR)/$(APPNAME)
 
 
 main.o:
